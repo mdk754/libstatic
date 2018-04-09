@@ -61,9 +61,10 @@ make target.
 
 ```bash
 make docs
+x-www-browser doc/html/index.html
 ```
 
-This will generate the HTML output in the `./doc` folder.
+This will generate the HTML output in the `./doc/html` folder and open in your default browser.
 
 
 ## Testing

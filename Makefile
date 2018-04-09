@@ -66,16 +66,16 @@ $(INT_DIR)/%.o: $(SRC_DIR)/% | $(INT_DIR)
 
 fmt:
 	@echo 'Formatting library headers ...'
-	$(QUIET)find ./inc \( -iname '*.h' -o -iname '*.c' -o -iname '*.cpp' \) -exec clang-format -i -style=file {} \;
+	$(QUIET)find ./inc \( -iname '*.h' -o -iname '*.c' -o -iname '*.cpp' \) -exec clang-format -i -style=file -fallback-style=none {} \;
 	@echo 'Formatting unit tests ...'
-	$(QUIET)find ./test \( -iname '*.h' -o -iname '*.c' -o -iname '*.cpp' \) -exec clang-format -i -style=file {} \;
+	$(QUIET)find ./test \( -iname '*.h' -o -iname '*.c' -o -iname '*.cpp' \) -exec clang-format -i -style=file -fallback-style=none {} \;
 
 $(DOC_DIR):
 	$(QUIET)mkdir -p $(DOC_DIR)
 
 docs: | $(DOC_DIR)
-	$(QUIET)rm -rf $(DOC_DIR)/*
-	$(QUIET)doxygen
+	$(QUIET)rm -rf $(DOC_DIR)/html
+	$(QUIET)doxygen doc/Doxyfile
 
 clean:
 	@echo 'Cleaning ...'

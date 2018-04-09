@@ -1,0 +1,12 @@
+/** @defgroup container Containers
+ *
+ * Generic collection of class templates which allow the user to implement
+ * common data structures.
+ */
+
+/** @defgroup sequence_container Sequence Containers
+ *  @ingroup  container
+ *
+ * Sequence containers implement data structures which can be accessed
+ * sequentially.
+ */
