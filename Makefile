@@ -4,10 +4,12 @@ MAKEFLAGS += --jobs=$(NUM_CORES) --max-load=$(NUM_CORES)
 
 PROG := static_test
 
-SRC_DIR := test
-BIN_DIR := bin
-INT_DIR := $(BIN_DIR)/intermediates
-DOC_DIR := doc
+INC_DIR    := inc
+SRC_DIR    := test
+VENDOR_DIR := vendor
+BIN_DIR    := bin
+INT_DIR    := $(BIN_DIR)/intermediates
+DOC_DIR    := doc
 
 EXE := $(BIN_DIR)/$(PROG)
 
@@ -15,8 +17,8 @@ SRCS := $(wildcard $(SRC_DIR)/*.cpp)
 OBJS := $(patsubst $(SRC_DIR)%,$(INT_DIR)%.o,$(SRCS))
 DEPS := $(patsubst $(SRC_DIR)%,$(INT_DIR)%.d,$(SRCS))
 
-INCLUDE_PATH := -I inc
-INCLUDE_PATH += -I vendor
+INCLUDE_PATH := -I $(INC_DIR)
+INCLUDE_PATH += -I $(VENDOR_DIR)
 
 CXX      := g++
 
@@ -43,9 +45,30 @@ else
     QUIET := @
 endif
 
-.PHONY: all docs test clean
+.PHONY: all clean docs fmt test
 
-all: docs
+test: $(EXE)
+	@echo 'Running $^ ...'
+	$(QUIET)$(EXE) --use-colour yes --order rand --rng-seed time
+
+$(EXE): $(OBJS)
+	@echo 'Linking $@ ...'
+	$(QUIET)$(CXX) $(LDFLAGS) -o $@ $^
+
+$(INT_DIR):
+	$(QUIET)mkdir -p $(INT_DIR)
+
+$(INT_DIR)/%.o: $(SRC_DIR)/% | $(INT_DIR)
+	@echo 'Compiling $< ...'
+	$(QUIET)$(CXX) $(CPPFLAGS) -MMD -c $< -o $@
+
+-include $(DEPS)
+
+fmt:
+	@echo 'Formatting library headers ...'
+	$(QUIET)find ./inc \( -iname '*.h' -o -iname '*.c' -o -iname '*.cpp' \) -exec clang-format -i -style=file {} \;
+	@echo 'Formatting unit tests ...'
+	$(QUIET)find ./test \( -iname '*.h' -o -iname '*.c' -o -iname '*.cpp' \) -exec clang-format -i -style=file {} \;
 
 $(DOC_DIR):
 	$(QUIET)mkdir -p $(DOC_DIR)
@@ -54,22 +77,6 @@ docs: | $(DOC_DIR)
 	$(QUIET)rm -rf $(DOC_DIR)/*
 	$(QUIET)doxygen
 
-test: $(EXE)
-	$(QUIET)$(EXE) --use-colour yes --order rand --rng-seed time
-
-$(EXE): $(OBJS)
-	$(QUIET)echo 'Linking $@ ...'
-	$(QUIET)$(CXX) $(LDFLAGS) -o $@ $^
-
-$(INT_DIR):
-	$(QUIET)mkdir -p $(INT_DIR)
-
-$(INT_DIR)/%.o: $(SRC_DIR)/% | $(INT_DIR)
-	$(QUIET)echo 'Compiling $< ...'
-	$(QUIET)$(CXX) $(CPPFLAGS) -MMD -c $< -o $@
-
--include $(DEPS)
-
 clean:
-	$(QUIET)echo 'Cleaning ...'
+	@echo 'Cleaning ...'
 	$(QUIET)rm -rf $(BIN_DIR)/*

@@ -113,7 +113,11 @@ should:
 * Be formatted consistently with the rest of the project
 
 Using `clang-format-6.0` or newer with the supplied style settings is strongly
-recommended.
+recommended. There is also a make target to automatically style all code.
+
+```bash
+make fmt
+```
 
 
 ## Versioning
