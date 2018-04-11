@@ -16,3 +16,9 @@
  * Sequence containers implement data structures which can be accessed
  * sequentially.
  */
+
+/** @defgroup iterator Iterators
+ *
+ * Provides definitions for iterators, as well as iterator traits, adapters, and
+ * utility functions.
+ */
