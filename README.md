@@ -39,17 +39,17 @@ A sample program which uses the library might look like this:
 
 ```c++
 #include <iostream>
-#include <static/array.h>
+#include <static/vector.h>
 
-sstd::array<int, 100> arr;
+sstd::vector<int, 100> vec;
 
-size_t ExampleSizeOfArray(const sstd::array<int>& some_array) {
-	return some_array.size();
+size_t ExampleSizeOfVector(const sstd::vector<int>& some_vec) {
+	return some_vec.size();
 }
 
 int main() {
 	// Size: 100
-	std::cout << "Size: " << ExampleSizeOfArray(arr) << std::endl;
+	std::cout << "Size: " << ExampleSizeOfVector(vec) << std::endl;
 }
 ```
 
