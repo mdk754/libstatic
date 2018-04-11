@@ -1,3 +1,9 @@
+/** @defgroup algorithm Algorithms
+ *
+ * Defines functions that operate on ranges of elements for a variety of
+ * purposes.
+ */
+
 /** @defgroup container Containers
  *
  * Generic collection of class templates which allow the user to implement
