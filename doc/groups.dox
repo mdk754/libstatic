@@ -1,24 +1,35 @@
 /** @defgroup algorithm Algorithms
- *
- * Defines functions that operate on ranges of elements for a variety of
- * purposes.
+ *  @brief    Defines functions that operate on ranges of elements for a variety
+ *            of purposes.
  */
 
 /** @defgroup container Containers
- *
- * Generic collection of class templates which allow the user to implement
- * common data structures.
+ *  @brief    Generic collection of class templates which allow the user to
+ *            implement common data structures.
  */
 
 /** @defgroup sequence_container Sequence Containers
  *  @ingroup  container
- *
- * Sequence containers implement data structures which can be accessed
- * sequentially.
+ *  @brief    Sequence containers implement data structures which can be
+ *            accessed sequentially.
  */
 
 /** @defgroup iterator Iterators
- *
- * Provides definitions for iterators, as well as iterator traits, adapters, and
- * utility functions.
+ *  @brief    Provides definitions for iterators, as well as iterator traits,
+ *            adapters, and utility functions.
+ */
+
+/** @defgroup utility Utilities
+ *  @brief    Vairety of utility libraries that provide various functionality.
+ */
+
+/** @defgroup language_support Language Support
+ *  @brief    Provides classes and functions that interact closely with language
+ *            features.
+ *  @ingroup  utility
+ */
+
+/** @defgroup memory_management Memory Management
+ *  @brief    Provides support for managing uninitialized memory.
+ *  @ingroup  utility
  */
