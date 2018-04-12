@@ -41,7 +41,7 @@ struct iterator_traits {
 };
 
 /** @brief Specialization for iterators that are a pointer. */
-template<typename T>
+template<class T>
 struct iterator_traits<T*> {
 	typedef random_access_iterator_tag iterator_category;
 	typedef T value_type;
@@ -51,7 +51,7 @@ struct iterator_traits<T*> {
 };
 
 /** @brief Specialization for iterators that are a const pointer. */
-template<typename T>
+template<class T>
 struct iterator_traits<const T*> {
 	typedef random_access_iterator_tag iterator_category;
 	typedef T value_type;
@@ -175,6 +175,23 @@ template<class Iterator1, class Iterator2>
 bool operator>=(const reverse_iterator<Iterator1>& lhs,
                 const reverse_iterator<Iterator2>& rhs) {
 	return !(lhs < rhs);
+}
+
+/** @brief  Returns the number of hops from first to last.
+ *  @tparam InputIt  The iterator type of the range.
+ */
+template<class InputIt>
+inline typename iterator_traits<InputIt>::difference_type distance(
+   InputIt first,
+   InputIt last) {
+	typename iterator_traits<InputIt>::difference_type size = 0;
+
+	while (first != last) {
+		++size;
+		++first;
+	}
+
+	return size;
 }
 
 } /* namespace sstd */
