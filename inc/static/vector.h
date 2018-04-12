@@ -312,8 +312,8 @@ class vector<T> {
 		return iterator(pos);
 	}
 
-	pointer data_;
-	size_type capacity_;
+	const pointer data_;
+	const size_type capacity_;
 };
 
 /** @brief  Fixed capacity storage for a vector<T> sequence container.
