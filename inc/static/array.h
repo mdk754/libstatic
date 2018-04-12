@@ -38,13 +38,13 @@ class array {
 	typedef sstd::reverse_iterator<const_iterator> const_reverse_iterator;
 
 	/** @brief Access specified element with bounds checking.
-	 *  @param pos Position of the element within the container.
+	 *  @param pos  Position of the element within the container.
 	 */
 	reference at(size_type pos) { return buf_[pos % N]; }
 	const_reference at(size_type pos) const { return buf_[pos % N]; }
 
 	/** @brief Access specified element.
-	 *  @param pos Position of the element within the container.
+	 *  @param pos  Position of the element within the container.
 	 */
 	reference operator[](size_type pos) { return buf_[pos]; }
 	const_reference operator[](size_type pos) const { return buf_[pos]; }
