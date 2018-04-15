@@ -213,15 +213,17 @@ class vector<T> {
 	/** @brief Appends the given element value to the end of the container.
 	 *  @param value  Reference to the value being copied.
 	 */
-	void push_back(const T& value) {
+	void push_back(const_reference value) {
 		if (size_ < capacity_) {
-			uninitialized_fill_n(end(), 1, value);
+			new (static_cast<void*>(data_ + size_)) value_type(value);
 			++size_;
 		}
 	}
 
 	/** @brief Removes the last element of the container. */
-	void pop_back() { resize(size_ - 1); }
+	void pop_back() {
+		if (size_) { resize(size_ - 1); }
+	}
 
 	/** @brief Resizes the container to contain count elements.
 	 *  @param count  Desired size of the container.
@@ -283,14 +285,14 @@ class vector<T> {
 
 	template<class InputIt>
 	void assign_range_dispatch(InputIt first, InputIt last, false_type) {
-		resize(distance(first, last));
+		resize(min(distance(first, last), difference_type(capacity_)));
 		copy_n(first, size_, begin());
 	}
 
-	template<class InputIt>
+	template<class Int>
 	iterator insert_range_dispatch(const_iterator pos,
-	                               InputIt first,
-	                               InputIt last,
+	                               Int first,
+	                               Int last,
 	                               true_type) {
 		return insert(pos, size_type(first), value_type(last));
 	}
