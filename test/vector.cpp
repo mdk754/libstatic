@@ -144,24 +144,27 @@ TEST_CASE("Index into a vector", "[access]") {
 	sstd::vector<int, count> a(count, 16);
 
 	SECTION("Using random access operator") {
+		a[1] = 8;
+
 		REQUIRE(a[0] == 16);
-		REQUIRE(a[1] == 16);
+		REQUIRE(a[1] == 8);
 		REQUIRE(a[2] == 16);
 	}
 
 	SECTION("Using bounds checked method") {
+		a.at(1) = 8;
+
 		SECTION("Within bounds") {
 			REQUIRE(a.at(0) == 16);
-			REQUIRE(a.at(1) == 16);
+			REQUIRE(a.at(1) == 8);
 			REQUIRE(a.at(2) == 16);
 		}
 
-		SECTION("Stack overflow") {
-			int overflow = a.data()[count];
+		SECTION("Out of bounds") {
+			int overflow = a.data()[0];
 			a.at(count)  = ~overflow;
 
-			REQUIRE(a.at(count) == ~overflow);
-			REQUIRE(a.data()[count] == overflow);
+			REQUIRE(a.at(count) == a.data()[0]);
 		}
 	}
 

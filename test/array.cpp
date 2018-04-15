@@ -45,8 +45,10 @@ TEST_CASE("Index into an array", "[access]") {
 	for (size_t i = 0; i < count; ++i) { a.data()[i] = ~i; }
 
 	SECTION("Using random access operator") {
+		a[1] = 8;
+
 		REQUIRE(a[0] == ~0);
-		REQUIRE(a[1] == ~1);
+		REQUIRE(a[1] == 8);
 		REQUIRE(a[2] == ~2);
 	}
 
