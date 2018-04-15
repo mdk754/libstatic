@@ -134,6 +134,18 @@ struct enable_if<true, T> {
 	typedef T type;
 };
 
+/** @brief Provides member typedef type, which is defined as T if B is true at
+ *         compile time, or as F if B is false. */
+template<bool B, class T, class F>
+struct conditional {
+	typedef T type;
+};
+
+template<class T, class F>
+struct conditional<false, T, F> {
+	typedef F type;
+};
+
 namespace detail {
 
 template<class T>
