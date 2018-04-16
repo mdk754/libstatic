@@ -23,6 +23,11 @@
  *  @brief    Vairety of utility libraries that provide various functionality.
  */
 
+/** @defgroup general_purpose General Purpose Utilities
+ *  @brief    Provides various general utilities, objects and algorithms.
+ *  @ingroup  utility
+ */
+
 /** @defgroup language_support Language Support
  *  @brief    Provides classes and functions that interact closely with language
  *            features.
