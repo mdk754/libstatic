@@ -210,8 +210,20 @@ struct aligned_storage {
 	// This type gives compilation errors if we can't align on the requested
 	// boundary for this platform.
 	typedef typename enable_if<(
-	   Align <= alignment_of<aligned_pod<0>::type>::value)>::type
-	   alignment_possible;
+	   Align == alignment_of<aligned_pod<0>::type>::value ||
+	   Align == alignment_of<aligned_pod<1>::type>::value ||
+	   Align == alignment_of<aligned_pod<2>::type>::value ||
+	   Align == alignment_of<aligned_pod<4>::type>::value ||
+	   Align == alignment_of<aligned_pod<8>::type>::value)>::type
+	   requested_alignment_is_not_possible_for_this_platform;
+
+	// This type gives compilation errors if the requested size is zero.
+	typedef typename enable_if<(N > 0)>::type size_must_not_be_zero;
+
+	// This type gives compilation errors if the requested size is smaller than
+	// the requested alignment.
+	typedef typename enable_if<(N >= Align)>::type
+	   size_must_be_greater_than_or_equal_to_alignment;
 };
 
 } /* namespace sstd */
