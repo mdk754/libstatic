@@ -16,12 +16,13 @@ struct nullopt_t {
 	// TODO: If we had extended braced initializers and constexpr we could
 	// declare a constexpr constructor taking an integral type, to allow for the
 	// optional_value = {} syntax.
+	explicit nullopt_t(int) {}
 };
 
 /** @brief Constant of type nullopt_t that is used to indicate optional type
  *         with uninitialized state.
  */
-const nullopt_t nullopt;
+const nullopt_t nullopt(0);
 
 /** @brief  Manages an optional contained value, ie. may or may not be present.
  *  @tparam T  The type of the value to manage.
