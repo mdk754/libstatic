@@ -149,21 +149,25 @@ struct conditional<false, T, F> {
 namespace detail {
 
 template<class T>
-struct alignment_of {
-	struct alignment_wrapper {
-		char pad;
-		T type;
-	};
-	static const size_t value = sizeof(alignment_wrapper) - sizeof(T);
+struct alignment_offset {
+	char pad;
+	T type;
 };
+
+template<size_t Size, size_t Align>
+struct alignment_min
+  : public integral_constant<size_t, (Size < Align) ? Size : Align> {};
+
+template<class T>
+struct alignment_of
+  : public alignment_min<sizeof(T), sizeof(alignment_offset<T>) - sizeof(T)> {};
 
 } /* namespace detail */
 
 /** @brief Provides the member constant value equal to the alignment requirement
  *         of the type T. */
 template<class T>
-struct alignment_of
-  : public integral_constant<size_t, detail::alignment_of<T>::value> {};
+struct alignment_of : public detail::alignment_of<T> {};
 
 /** @brief  Provides the nested type type, which is a trivial type with the same
  *          alignment as Align.
