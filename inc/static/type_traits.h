@@ -169,9 +169,13 @@ struct alignment_of
 template<class T>
 struct alignment_of : public detail::alignment_of<T> {};
 
-/** @brief  Provides the nested type type, which is a trivial type with the same
- *          alignment as Align.
+/** @brief  Provides the nested type type, which is a trivial type with
+ *          alignment requirements at least as strict as Align.
  *  @tparam Align  The requested alignment of the nested type.
+ *
+ * The provided type attempts to match Align. If it cannot provide the requested
+ * alignment, it will default to alignment_of<long double> in an attempt to use
+ * the strictest alignment possible. On most platforms this will be the case.
  */
 template<size_t Align>
 struct aligned_pod {
@@ -213,13 +217,11 @@ struct aligned_storage {
   private:
 	// This type gives compilation errors if we can't align on the requested
 	// boundary for this platform.
-	typedef typename enable_if<(
-	   Align == alignment_of<aligned_pod<0>::type>::value ||
-	   Align == alignment_of<aligned_pod<1>::type>::value ||
-	   Align == alignment_of<aligned_pod<2>::type>::value ||
-	   Align == alignment_of<aligned_pod<4>::type>::value ||
-	   Align == alignment_of<aligned_pod<8>::type>::value)>::type
-	   requested_alignment_is_not_possible_for_this_platform;
+	typedef
+	   typename enable_if<(Align == alignment_of<aligned_pod<0>::type>::value ||
+	                       Align == 1 || Align == 2 || Align == 4 ||
+	                       Align == 8)>::type
+	      requested_alignment_is_not_possible_for_this_platform;
 
 	// This type gives compilation errors if the requested size is zero.
 	typedef typename enable_if<(N > 0)>::type size_must_not_be_zero;
