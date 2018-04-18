@@ -24,7 +24,7 @@ class deque;
  */
 template<class T, bool Const = false>
 class deque_iterator {
-	friend T;
+	friend class deque<typename T::value_type>;
 
 	typedef typename conditional<Const, const T, T>::type deque_type;
 
