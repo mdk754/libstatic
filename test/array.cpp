@@ -10,7 +10,7 @@ TEST_CASE("Construct an array", "[constructor]") {
 	}
 
 	SECTION("Aggregate initialize") {
-		sstd::array<int, 3> a = {16, 16, 16};
+		sstd::array<int, 3> a = {{16, 16, 16}};
 
 		REQUIRE(a[0] == 16);
 		REQUIRE(a[1] == 16);
@@ -18,7 +18,7 @@ TEST_CASE("Construct an array", "[constructor]") {
 	}
 
 	SECTION("Copy construct") {
-		sstd::array<unsigned char, 3> a = {0, 1, 2};
+		sstd::array<unsigned char, 3> a = {{0, 1, 2}};
 		sstd::array<unsigned char, 3> b(a);
 
 		REQUIRE(a[0] == b[0]);
@@ -28,8 +28,8 @@ TEST_CASE("Construct an array", "[constructor]") {
 }
 
 TEST_CASE("Assign an array", "[assignment]") {
-	sstd::array<char, 3> a = {0, 1, 2};
-	sstd::array<char, 3> b = {2, 1, 0};
+	sstd::array<char, 3> a = {{0, 1, 2}};
+	sstd::array<char, 3> b = {{2, 1, 0}};
 
 	b = a;
 
@@ -70,7 +70,7 @@ TEST_CASE("Index into an array", "[access]") {
 
 TEST_CASE("Iterate over an array", "[iterator]") {
 	typedef sstd::array<int, 3> array;
-	array a = {4, 4, 4};
+	array a = {{4, 4, 4}};
 
 	SECTION("Forward direction") {
 		for (array::iterator it = a.begin(); it != a.end(); ++it) { *it = 16; }
@@ -94,7 +94,7 @@ TEST_CASE("Iterate over an array", "[iterator]") {
 	}
 
 	SECTION("With const-qualified array") {
-		const array b = {16, 16, 16};
+		const array b = {{16, 16, 16}};
 
 		size_t count = 0;
 
@@ -115,41 +115,41 @@ TEST_CASE("Check the capacity of an array", "[capacity]") {
 }
 
 TEST_CASE("Test arrays for equality", "[comparison]") {
-	sstd::array<char, 3> a = {16, 16, 16};
+	sstd::array<char, 3> a = {{16, 16, 16}};
 
 	SECTION("With an equal size array") {
 		SECTION("With same contents") {
-			sstd::array<char, 3> b = {16, 16, 16};
+			sstd::array<char, 3> b = {{16, 16, 16}};
 
 			REQUIRE(a == b);
 		}
 
 		SECTION("With differing contents") {
-			sstd::array<char, 3> b = {32, 32, 32};
+			sstd::array<char, 3> b = {{32, 32, 32}};
 
 			REQUIRE(a != b);
 		}
 	}
 
 	SECTION("With a smaller size array") {
-		sstd::array<char, 2> b = {16, 16};
+		sstd::array<char, 2> b = {{16, 16}};
 
 		REQUIRE(a != b);
 	}
 
 	SECTION("With a larger size array") {
-		sstd::array<char, 5> b = {16, 16, 16, 16, 16};
+		sstd::array<char, 5> b = {{16, 16, 16, 16, 16}};
 
 		REQUIRE(a != b);
 	}
 }
 
 TEST_CASE("Compare arrays lexicographically", "[comparison]") {
-	sstd::array<int, 4> a = {16, 16, 16, 16};
+	sstd::array<int, 4> a = {{16, 16, 16, 16}};
 
 	SECTION("With an equal size array") {
 		SECTION("With lower value") {
-			sstd::array<int, 4> b = {8, 8, 8, 8};
+			sstd::array<int, 4> b = {{8, 8, 8, 8}};
 
 			REQUIRE(a > b);
 			REQUIRE(a >= b);
@@ -158,7 +158,7 @@ TEST_CASE("Compare arrays lexicographically", "[comparison]") {
 		}
 
 		SECTION("With higher value") {
-			sstd::array<int, 4> b = {32, 32, 32, 32};
+			sstd::array<int, 4> b = {{32, 32, 32, 32}};
 
 			REQUIRE(a < b);
 			REQUIRE(a <= b);
@@ -167,7 +167,7 @@ TEST_CASE("Compare arrays lexicographically", "[comparison]") {
 		}
 
 		SECTION("With equal value") {
-			sstd::array<int, 4> b = {16, 16, 16, 16};
+			sstd::array<int, 4> b = {{16, 16, 16, 16}};
 
 			REQUIRE(a <= b);
 			REQUIRE(a >= b);
@@ -175,13 +175,13 @@ TEST_CASE("Compare arrays lexicographically", "[comparison]") {
 	}
 
 	SECTION("With s smaller size array") {
-		sstd::array<int, 2> b = {16, 16};
+		sstd::array<int, 2> b = {{16, 16}};
 
 		REQUIRE(b < a);
 	}
 
 	SECTION("With s larger size array") {
-		sstd::array<int, 8> b = {16, 16, 16, 16, 16, 16, 16, 16};
+		sstd::array<int, 8> b = {{16, 16, 16, 16, 16, 16, 16, 16}};
 
 		REQUIRE(a < b);
 	}
