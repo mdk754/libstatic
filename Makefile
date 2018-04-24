@@ -23,7 +23,7 @@ INCLUDE_PATH += -I $(VENDOR_DIR)
 CXX      := g++
 
 CPPFLAGS += -std=c++98
-CPPFLAGS += -Wall -Wextra -Werror
+CPPFLAGS += -Wall -Wextra
 CPPFLAGS += -g -O0
 CPPFLAGS += $(INCLUDE_PATH)
 
@@ -77,6 +77,7 @@ $(DOC_DIR):
 
 docs: | $(DOC_DIR)
 	$(QUIET)rm -rf $(DOC_DIR)/html
+	@echo 'Generating documentation ...'
 	$(QUIET)doxygen doc/Doxyfile
 
 clean:
