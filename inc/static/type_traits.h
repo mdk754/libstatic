@@ -232,6 +232,86 @@ struct aligned_storage {
 	   size_must_be_greater_than_or_equal_to_alignment;
 };
 
+namespace detail {
+
+template<class T0,
+         class T1 = void,
+         class T2 = void,
+         class T3 = void,
+         class T4 = void,
+         class T5 = void,
+         class T6 = void,
+         class T7 = void>
+struct max_sizeof {
+	typedef typename max_sizeof<T1, T2, T3, T4, T5, T6, T7>::type tail;
+
+	typedef
+	   typename conditional<(sizeof(T0) > sizeof(tail)), T0, tail>::type type;
+
+	static const size_t value = sizeof(type);
+};
+
+template<class T>
+struct max_sizeof<T, void, void, void, void, void, void, void> {
+	typedef T type;
+
+	static const size_t value = sizeof(type);
+};
+
+template<class T0,
+         class T1 = void,
+         class T2 = void,
+         class T3 = void,
+         class T4 = void,
+         class T5 = void,
+         class T6 = void,
+         class T7 = void>
+struct max_alignof {
+	typedef typename max_alignof<T1, T2, T3, T4, T5, T6, T7>::type tail;
+
+	typedef typename conditional<(alignment_of<T0>::value >
+	                              alignment_of<tail>::value),
+	                             T0,
+	                             tail>::type type;
+
+	static const size_t value = alignment_of<type>::value;
+};
+
+template<class T>
+struct max_alignof<T, void, void, void, void, void, void, void> {
+	typedef T type;
+
+	static const size_t value = alignment_of<type>::value;
+};
+
+} /* namespace detail */
+
+template<size_t N,
+         class T0,
+         class T1 = void,
+         class T2 = void,
+         class T3 = void,
+         class T4 = void,
+         class T5 = void,
+         class T6 = void,
+         class T7 = void>
+struct aligned_union {
+	static const size_t alignment_value =
+	   detail::max_alignof<T0, T1, T2, T3, T4, T5, T6, T7>::value;
+
+	static const size_t size_value =
+	   detail::max_sizeof<T0, T1, T2, T3, T4, T5, T6, T7>::value;
+
+	typedef typename aligned_storage<(N > size_value ? N : size_value),
+	                                 alignment_value>::type type;
+};
+
+template<class T, class U>
+struct is_same : public false_type {};
+
+template<class T>
+struct is_same<T, T> : public true_type {};
+
 } /* namespace sstd */
 
 #endif /* STATIC_TYPE_TRAITS_H_ */
