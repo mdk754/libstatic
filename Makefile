@@ -27,6 +27,8 @@ CPPFLAGS += -Wall -Wextra -Werror
 CPPFLAGS += -g -O0
 CPPFLAGS += $(INCLUDE_PATH)
 
+LDFLAGS += -Xlinker -Map=$(INT_DIR)/linker.map
+
 # Allow user to specify a sanitizer.
 ifeq ($(SANITIZER), asan)
     CPPFLAGS += -fsanitize=address
